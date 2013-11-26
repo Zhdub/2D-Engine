@@ -3,7 +3,6 @@ package by.zti;
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glTranslatef;
-import by.zti.game.Game;
 
 public abstract class GameObject {
 	protected float x;
@@ -11,7 +10,7 @@ public abstract class GameObject {
 	protected int type;
 //	private Animation animation;
 	protected Sprite sprite;
-	protected boolean remove = false;
+	protected boolean flags[] = new boolean[1];
 	
 	public void updtae(){
 		
@@ -54,10 +53,10 @@ public abstract class GameObject {
 	}
 	
 	public void remove(){
-		remove = true;
+		flags[0] = true;
 	}
 
 	public boolean isRemove() {
-		return remove;
+		return flags[0];
 	}
 }
