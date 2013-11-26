@@ -6,6 +6,8 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+
+import by.zti.game.Game;
 import static org.lwjgl.opengl.GL11.*;
 
 public class MainComponent {
@@ -14,6 +16,10 @@ public class MainComponent {
 	private static Game game;
 	
 	public static void main(String[] args){
+		init();
+	}
+	
+	public static void init(){
 		initialiseDisplay();  //Инициализация окна
 		initialiseGL(); //Инициализация OpenGL - а
 		initialiseGame(); // инициализация игры

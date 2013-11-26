@@ -1,15 +1,31 @@
 package by.zti;
 
-import static org.lwjgl.opengl.GL11.*; 
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
+import static org.lwjgl.opengl.GL11.glTranslatef;
+import by.zti.game.Game;
 
 public abstract class GameObject {
-	private float x;
-	private float y;
+	protected float x;
+	protected float y;
+	protected int type;
 //	private Animation animation;
-	private Sprite sprite;
+	protected Sprite sprite;
+	protected boolean remove = false;
 	
 	public void updtae(){
 		
+	}
+	
+	protected void initialise(float x, float y, float r, float g, float b, float sizeX, float sizeY, int type){
+		this.x = x;
+		this.y = y;
+		this.type = type;
+		this.sprite = new Sprite(r, g, b, sizeX, sizeY);
+	}
+	
+	public int getTypr(){
+		return type;
 	}
 	
 	public void render(){
@@ -35,5 +51,13 @@ public abstract class GameObject {
 
 	public float getSizeY() {
 		return sprite.getSizeY();
+	}
+	
+	public void remove(){
+		remove = true;
+	}
+
+	public boolean isRemove() {
+		return remove;
 	}
 }
