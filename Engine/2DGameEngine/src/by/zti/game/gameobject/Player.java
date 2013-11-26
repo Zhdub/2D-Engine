@@ -10,9 +10,12 @@ import by.zti.game.gameobject.item.Item;
 public class Player extends GameObject{
 	public static final int SIZE = 42;
 	private Stats stats;
+	private Inventory inventory;
 	
 	public Player(float x, float y){
 		initialise(x, y, 0.1f, 1f, 0.25f, SIZE, SIZE, 0);
+		stats = new Stats(0);
+		inventory = new Inventory(20);
 	}
 	
 	public void getInput(){
@@ -64,7 +67,7 @@ public class Player extends GameObject{
 	}
 	
 	public void addItem(Item item){
-		System.out.println("you just picked up an item");
+		inventory.add(item);
 	}
 	
 	public void updtae(){

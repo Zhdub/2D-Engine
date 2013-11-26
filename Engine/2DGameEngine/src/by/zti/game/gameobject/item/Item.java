@@ -32,4 +32,8 @@ public class Item extends GameObject{
 		this.sprite = new Sprite(r, g, b, sizeX, sizeY);
 		this.name = name;
 	}
+
+	public String getName() {
+		return name;
+	}
 }
