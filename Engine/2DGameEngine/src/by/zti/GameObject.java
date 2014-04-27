@@ -16,11 +16,11 @@ public abstract class GameObject {
 		
 	}
 	
-	protected void initialise(float x, float y, float r, float g, float b, float sizeX, float sizeY, int type){
+	protected void initialise(float x, float y, float r, float g, float b, float sizeX, float sizeY, int type, Sprite sprite){
 		this.x = x;
 		this.y = y;
 		this.type = type;
-		this.sprite = new Sprite(r, g, b, sizeX, sizeY);
+		this.sprite = sprite;
 	}
 	
 	public int getTypr(){
