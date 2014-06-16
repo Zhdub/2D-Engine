@@ -5,24 +5,20 @@ import java.util.ArrayList;
 import org.lwjgl.opengl.Display;
 
 import by.zti.GameObject;
-import by.zti.game.gameobject.Grass;
 import by.zti.game.gameobject.Player;
 import by.zti.game.gameobject.item.Cube;
 
 public class Game {
 	private ArrayList<GameObject> objects;
 	private ArrayList<GameObject> remove;
-	private ArrayList<GameObject> terrain;
 	private Player player;
 	
 	public Game(){
 		objects = new ArrayList<GameObject>();
 		remove = new ArrayList<GameObject>();
-		terrain = new ArrayList<GameObject>();
 		player = new Player(Display.getWidth()/2 - Player.SIZE/2, Display.getHeight()/2 - Player.SIZE/2);
 		objects.add(player);
 		objects.add(new Cube(32,32, player));
-		
 	}
 	
 	public void getInput(){
@@ -30,9 +26,6 @@ public class Game {
 	}
 	
 	public void update(){
-		for(GameObject go: terrain){
-			go.updtae();
-		}
 		for(GameObject go: remove){
 			objects.remove(go);
 		}
@@ -47,9 +40,6 @@ public class Game {
 	}
 	
 	public void render(){
-		for(GameObject go: terrain){
-			go.render();
-		}
 		for(GameObject go: objects){
 			go.render();
 		}

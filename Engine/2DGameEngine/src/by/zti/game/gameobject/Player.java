@@ -3,19 +3,17 @@ package by.zti.game.gameobject;
 import org.lwjgl.input.Keyboard;
 
 import by.zti.GameObject;
-import by.zti.Sprite;
 import by.zti.game.Stats;
-import by.zti.game.Textures;
 import by.zti.game.gameobject.item.Item;
 
 
 public class Player extends GameObject{
-	public static final int SIZE = 40;
+	public static final int SIZE = 42;
 	private Stats stats;
 	private Inventory inventory;
 	
 	public Player(float x, float y){
-		initialise(x, y, 0.1f, 0f, 0.5f, SIZE, SIZE, 0, new Sprite(0,0,0, SIZE, SIZE, Textures.player));
+		initialise(x, y, 0.1f, 1f, 0.25f, SIZE, SIZE, 0);
 		stats = new Stats(0);
 		inventory = new Inventory(20);
 	}
