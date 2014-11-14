@@ -14,7 +14,6 @@ public class Tile implements Serializable{
 		tile_name = "WIP";
 		animations = new ArrayList<Animation>();
 		animations.add(animation);
-		curren_animation_id = 0;
 	}
 
 	public void render(float width, float heigth) {
@@ -23,15 +22,11 @@ public class Tile implements Serializable{
 				animation.render(width, heigth);
 				break;
 			}
-			JOptionPane.showMessageDialog(null, ("\n "
-					+ "Animations list is empty or current animation ID is invalid"));
 		}
 	}
 	
 	public void addAnimation(Animation animation){
 		animations.add(animation);
-		JOptionPane.showMessageDialog(null, ("\n"
-				+ "New animation added to tile '"+tile_name+"'"));
 	}
 	
 	public void removeAnimation(Animation animation){
@@ -65,11 +60,8 @@ public class Tile implements Serializable{
 	public void setAnimations(ArrayList<Animation> animations) {
 		this.animations = animations;
 	}
-
-	public void reanimate() {
-		for(Animation animation: animations){
-			animation.reanimate();
-		}
+	
+	public void setCurrentAnimationID(int id){
+		curren_animation_id = id;
 	}
-
 }

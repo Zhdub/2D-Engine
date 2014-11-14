@@ -19,7 +19,7 @@ public class GameObject implements Serializable{
 	protected Tile tile;
 	protected String name;
 	protected int render_layer;
-	protected boolean canCollide;
+	protected boolean canCollide, isReanimated;
 
 	public GameObject(float x, float y, float width, float heigth, Animation animation, String name, boolean canCollide, int render_layer) {
 		tile = new Tile(animation);
@@ -30,15 +30,21 @@ public class GameObject implements Serializable{
 		this.name = name;
 		this.canCollide = canCollide;
 		this.render_layer = render_layer;
+		isReanimated = true;
 	}
 
 	public void render() {
+		if(isReanimated){
+			tile.reanimate();
+			isReanimated = false;
+		}
 		glPushMatrix();
 		{
 			glTranslatef(x-Core.getCamera().getX()+Core.getCamera().getOffsetX(), y-Core.getCamera().getY()+Core.getCamera().getOffsetY(), 0);
 			tile.render(width, heigth);
 		}
 		glPopMatrix();
+		
 	}
 	
 	public void update() {
@@ -107,5 +113,9 @@ public class GameObject implements Serializable{
 
 	public void setCanCollide(boolean canCollide) {
 		this.canCollide = canCollide;
+	}
+	
+	public void reanimate(){
+		tile.reanimate();
 	}
 }

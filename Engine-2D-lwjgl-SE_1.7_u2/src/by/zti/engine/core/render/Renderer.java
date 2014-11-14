@@ -18,6 +18,9 @@ import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.opengl.GL11.glViewport;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import javax.swing.JOptionPane;
 
 import org.lwjgl.LWJGLException;
@@ -28,22 +31,22 @@ import org.lwjgl.opengl.DisplayMode;
 
 import by.zti.engine.core.Core;
 import by.zti.engine.core.GameObject;
-import by.zti.engine.core.TextureProcessor;
 
 public class Renderer implements Runnable {
 	private boolean isRendering;
+	private ExecutorService executor = Executors.newFixedThreadPool(2000);
 
 	@Override
 	public void run() {
 		initialiseDisplay();
 		initialiseGL();
+		Textures.loadTextures();
 		isRendering = true;
 		while (!Display.isCloseRequested()) {
 			if (isRendering) {
 				glClear(GL_COLOR_BUFFER_BIT);
 				glLoadIdentity();
 				render();
-				Core.getCamera().update();
 				Display.update();
 				Display.sync(60);
 				Core.getUpdater().tick();
@@ -55,28 +58,16 @@ public class Renderer implements Runnable {
 		Mouse.destroy();
 		Core.setRunning(false);
 	}
-	
+
 	public void tick() {
-		if(!isRendering){
+		if (!isRendering) {
 			isRendering = true;
 		}
 	}
 
 	public void render() {
 		for (GameObject object : Core.getQueue()) {
-			if (object.getRender_layer() == 0) {
 				object.render();
-			}
-		}
-		for (GameObject object : Core.getQueue()) {
-			if (object.getRender_layer() == 1) {
-				object.render();
-			}
-		}
-		for (GameObject object : Core.getQueue()) {
-			if (object.getRender_layer() == 2) {
-				object.render();
-			}
 		}
 	}
 
@@ -112,6 +103,14 @@ public class Renderer implements Runnable {
 
 	public void setRendering(boolean isRendering) {
 		this.isRendering = isRendering;
+	}
+
+	public ExecutorService getExecutor() {
+		return executor;
+	}
+
+	public void setExecutor(ExecutorService executor) {
+		this.executor = executor;
 	}
 
 }

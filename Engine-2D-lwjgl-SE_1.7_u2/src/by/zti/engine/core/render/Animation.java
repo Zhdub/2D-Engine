@@ -3,9 +3,11 @@ package by.zti.engine.core.render;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import by.zti.engine.core.Core;
+
 public class Animation implements Runnable, Serializable{
 	private ArrayList<Frame> frames;
-	private boolean isAnimated;
+	private boolean isAnimated, canBeAnimated;
 	private int id;
 	private String animationName;
 	private Frame current_frame;
@@ -17,6 +19,17 @@ public class Animation implements Runnable, Serializable{
 		this.id = id;
 		this.setAnimationName(animationName);
 		isAnimated = false;
+		canBeAnimated = true;
+	}
+	
+	public Animation(Frame frame, int id, String animationName, boolean canBeAnimated){
+		frames = new ArrayList<Frame>();
+		frames.add(frame);
+		current_frame = frame;
+		this.id = id;
+		this.setAnimationName(animationName);
+		isAnimated = false;
+		this.canBeAnimated = canBeAnimated;
 	}
 	
 	public int getId() {
@@ -28,8 +41,8 @@ public class Animation implements Runnable, Serializable{
 	}
 
 	public void render(float width, float heigth) {
-		if(!isAnimated){
-			new Thread(this).start();
+		if(!isAnimated&&canBeAnimated){
+			Core.getRenderer().getExecutor().submit(this);
 		}
 		current_frame.render(width, heigth);
 	}
@@ -65,15 +78,4 @@ public class Animation implements Runnable, Serializable{
 	public void setAnimationName(String animationName) {
 		this.animationName = animationName;
 	}
-
-	public void reanimate() {
-		isAnimated = false;
-		for(Frame frame: frames){
-			frame.reanimate();
-		}
-		
-	}
-
-	
-	
 }

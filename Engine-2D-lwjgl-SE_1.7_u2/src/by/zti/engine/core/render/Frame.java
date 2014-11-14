@@ -9,24 +9,22 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
 import java.io.Serializable;
 
 import by.zti.engine.core.Core;
-import by.zti.engine.core.TextureProcessor;
 
 public class Frame implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String textureName, texturePath;
+	private String textureName;
 	private int duration;
 
-	public Frame(String textureName, String texturePath, int duration) {
+	public Frame(String textureName, int duration) {
 		this.textureName = textureName;
-		this.texturePath = texturePath;
 		this.duration = duration;
 	}
 
 	public void render(float width, float heigth) {
-		TextureProcessor.getTexture(textureName);
+		Textures.getTexture(textureName).bind();;
 		glBegin(GL_QUADS);
 		{
 			glVertex2f(0, 0);
@@ -46,10 +44,6 @@ public class Frame implements Serializable {
 
 	public int getDuration() {
 		return duration;
-	}
-
-	public void reanimate() {
-		TextureProcessor.loadTexture(texturePath, textureName);
 	}
 
 }

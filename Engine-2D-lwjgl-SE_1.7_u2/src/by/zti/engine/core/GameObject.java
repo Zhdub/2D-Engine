@@ -7,9 +7,14 @@ import static org.lwjgl.opengl.GL11.glTranslatef;
 import java.io.Serializable;
 
 import by.zti.engine.core.render.Animation;
+import by.zti.engine.core.render.Frame;
 import by.zti.engine.core.render.Tile;
 
-public class GameObject implements Serializable{
+public abstract class GameObject implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected float x,y;
 	protected float width, heigth;
 	protected Tile tile;
@@ -17,29 +22,27 @@ public class GameObject implements Serializable{
 	protected int render_layer;
 	protected boolean canCollide;
 
-	public GameObject(float x, float y, float width, float heigth, Animation animation, String name, boolean canCollide, Core core, int render_layer) {
-		tile = new Tile(animation);
+	public GameObject(float x, float y, float width, float heigth) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.heigth = heigth;
-		this.name = name;
-		this.canCollide = canCollide;
-		this.render_layer = render_layer;
+		this.name = "Null";
+		this.canCollide = false;
+		this.render_layer = 0;
 	}
 
 	public void render() {
 		glPushMatrix();
 		{
-			glTranslatef(x-Core.getCamera().getX()+core.getCamera().getOffsetX(), y-core.getCamera().getY()+core.getCamera().getOffsetY(), 0);
+			glTranslatef(x-Core.getCamera().getX()+Core.getCamera().getOffsetX(), y-Core.getCamera().getY()+Core.getCamera().getOffsetY(), 0);
 			tile.render(width, heigth);
 		}
 		glPopMatrix();
-	}
-	
-	public void update() {
 		
 	}
+	
+	public abstract void update();
 	
 	public Tile getTile(){
 		return tile;
@@ -71,14 +74,6 @@ public class GameObject implements Serializable{
 	
 	public String getName(){
 		return name;
-	}
-
-	public Core getCore() {
-		return core;
-	}
-
-	public void setCore(Core core) {
-		this.core = core;
 	}
 
 	public int getRender_layer() {

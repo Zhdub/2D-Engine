@@ -23,15 +23,19 @@ public class Updater implements Runnable {
 		while (Core.isRunning()) {
 			if(isUpdateing){
 				Input.update();
-				
 				for (GameObject object : Core.getQueue()) {
 					object.update();
+					if(Core.getCamera()!=null){
+						Core.getCamera().update();	
+					}
+//					if(Core.getMap()!=null){
+//						Core.getMap().update();
+//					}
 				}
 				Core.getRenderer().tick();
 				isUpdateing = false;
 			}
 		}
-		System.out.println(1);
 	}
 	
 	public void tick(){

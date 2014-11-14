@@ -5,6 +5,7 @@ import java.util.concurrent.BlockingQueue;
 
 import javax.swing.JOptionPane;
 
+import by.zti.engine.GameMap;
 import by.zti.engine.core.render.Camera;
 import by.zti.engine.core.render.Renderer;
 import by.zti.engine.core.update.Updater;
@@ -20,12 +21,13 @@ public class Core {
 	private static Thread updater_thread;
 	private static BlockingQueue<GameObject> queue;
 	private static Camera camera;
+	private static GameMap map;
 
 
 	public static void initialise() {
 		try{
 			isRunning = true;
-			setQueue(new ArrayBlockingQueue<GameObject>(Core.heigth*Core.width));
+			setQueue(new ArrayBlockingQueue<GameObject>(60*60));
 			renderer = new Renderer();
 			updater = new Updater();
 			setRenderer_thread(new Thread(renderer));
@@ -42,7 +44,6 @@ public class Core {
 	public static void start(){
 		updater_thread.start();
 		renderer_thread.start();
-		
 	}
 	
 	public static void addObject(GameObject object){
@@ -125,4 +126,11 @@ public class Core {
 		Core.queue = queue;
 	}
 
+	public static GameMap getMap() {
+		return map;
+	}
+
+	public static void setMap(GameMap map) {
+		Core.map = map;
+	}
 }
