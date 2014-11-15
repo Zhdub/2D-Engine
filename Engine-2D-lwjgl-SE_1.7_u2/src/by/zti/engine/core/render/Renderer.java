@@ -18,6 +18,7 @@ import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.opengl.GL11.glViewport;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -29,10 +30,15 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
+import de.matthiasmann.twl.GUI;
+import de.matthiasmann.twl.Widget;
+import de.matthiasmann.twl.theme.ThemeManager;
 import by.zti.engine.core.Core;
 import by.zti.engine.core.GameObject;
+import by.zti.engine.core.UserInterface;
 
 public class Renderer implements Runnable {
+	private GUI gui;
 	private boolean isRendering;
 	private ExecutorService executor = Executors.newFixedThreadPool(2000);
 
@@ -41,18 +47,29 @@ public class Renderer implements Runnable {
 		initialiseDisplay();
 		initialiseGL();
 		Textures.loadTextures();
+		Widget USI = Core.getUI();
+		gui = new GUI(USI, Core.getGUIrenderer());
+		gui.applyTheme(Core.getTheme());
+		try {
+			Core.setTheme(ThemeManager.createThemeManager(UserInterface.class.getResource("login.xml"), Core.getGUIrenderer()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		isRendering = true;
 		while (!Display.isCloseRequested()) {
 			if (isRendering) {
 				glClear(GL_COLOR_BUFFER_BIT);
 				glLoadIdentity();
 				render();
+				gui.update();
 				Display.update();
 				Display.sync(60);
 				Core.getUpdater().tick();
 				isRendering = false;
 			}
 		}
+		gui.destroy();
 		Display.destroy();
 		Keyboard.destroy();
 		Mouse.destroy();
@@ -111,6 +128,14 @@ public class Renderer implements Runnable {
 
 	public void setExecutor(ExecutorService executor) {
 		this.executor = executor;
+	}
+
+	public GUI getGui() {
+		return gui;
+	}
+
+	public void setGui(GUI gui) {
+		this.gui = gui;
 	}
 
 }

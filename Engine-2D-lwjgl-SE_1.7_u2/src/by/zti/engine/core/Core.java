@@ -9,6 +9,9 @@ import by.zti.engine.GameMap;
 import by.zti.engine.core.render.Camera;
 import by.zti.engine.core.render.Renderer;
 import by.zti.engine.core.update.Updater;
+import de.matthiasmann.twl.Widget;
+import de.matthiasmann.twl.renderer.lwjgl.LWJGLRenderer;
+import de.matthiasmann.twl.theme.ThemeManager;
 
 public class Core {
 	private static int width;
@@ -22,7 +25,9 @@ public class Core {
 	private static BlockingQueue<GameObject> queue;
 	private static Camera camera;
 	private static GameMap map;
-
+	private static LWJGLRenderer GUIrenderer;
+	private static UserInterface UI;
+	private static ThemeManager theme;
 
 	public static void initialise() {
 		try{
@@ -32,6 +37,8 @@ public class Core {
 			updater = new Updater();
 			setRenderer_thread(new Thread(renderer));
 			setUpdater_thread(new Thread(updater));
+			setGUIrenderer(new LWJGLRenderer());
+			theme = ThemeManager.createThemeManager(UserInterface.class.getResource("login.xml"), getGUIrenderer());
 		}catch (Exception e){
 			if(camera==null){
 				JOptionPane.showMessageDialog(null, "Ypu need to setup Game Camera");
@@ -133,4 +140,29 @@ public class Core {
 	public static void setMap(GameMap map) {
 		Core.map = map;
 	}
+
+	public static LWJGLRenderer getGUIrenderer() {
+		return GUIrenderer;
+	}
+
+	public static void setGUIrenderer(LWJGLRenderer gUIrenderer) {
+		GUIrenderer = gUIrenderer;
+	}
+
+	public static ThemeManager getTheme() {
+		return theme;
+	}
+
+	public static void setTheme(ThemeManager theme) {
+		Core.theme = theme;
+	}
+
+	public static UserInterface getUI() {
+		return UI;
+	}
+
+	public static void setUI(UserInterface uI) {
+		UI = uI;
+	}
+
 }
